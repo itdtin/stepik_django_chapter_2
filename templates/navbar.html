@@ -5,13 +5,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            {% for key, dep in departures.items %}
-            {% if active == key %}
-            <li class="nav-item active">
-            {% else %}
-            <li class="nav-item">
-            {% endif %}
-                <a class="nav-link" href="{% url 'departure' departure_name=key %}">{{ dep }} </a>
+            {% for code, name in departures.items %}
+            {% url 'departure' code as endpoint %}
+            <li class="nav-item {% if endpoint == request.path %}active{% endif %}">
+                <a class="nav-link" href="{{ endpoint }}">{{ name }} </a>
             </li>
             {% endfor %}
 
