@@ -11,15 +11,15 @@ class MainView(View):
     """Класс представления для главной"""
 
     def get(self, request, *args, **kwargs):
-        tourss = {}
-        while len(tourss) != 6:
-            item = random.randint(1, len(list(tours.keys())))
-            if item not in tourss:
-                tourss.update({item: tours[item]})
+        random_tours = {}
+        tours_ids = random.sample(tours.keys(), 6)
+
+        for tour_id in tours_ids:
+            random_tours.update({tour_id: tours[tour_id]})
         return render(
             request, 'tours/index.html', context={
                 'title': title, 'subtitle': subtitle,
-                'description': description, 'tours': tourss,
+                'description': description, 'tours': random_tours,
                 'departures': departures}
         )
 
@@ -31,9 +31,9 @@ class DepartureView(View):
 
         if departure_name not in departures:
             raise Http404
-        turs = [tour for tour in tours if tours[tour]['departure'] == departure_name]
-        prices = [tours[tour]['price'] for tour in turs]
-        nights = [tours[tour]['nights'] for tour in turs]
+        departure_tours = [tour for tour in tours if tours[tour]['departure'] == departure_name]
+        prices = [tours[tour]['price'] for tour in departure_tours]
+        nights = [tours[tour]['nights'] for tour in departure_tours]
 
         return render(
             request, 'tours/departure.html', context={
@@ -43,7 +43,7 @@ class DepartureView(View):
                 'departure': departures[departure_name],
                 'departures': departures,
                 'tours': tours,
-                'turs': turs,
+                'turs': departure_tours,
                 'price_min': min(prices),
                 'price_max': max(prices),
                 'nights_min': min(nights),

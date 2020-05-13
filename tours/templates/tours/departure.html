@@ -2,7 +2,10 @@
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 <h1 class="display-5 mt-4">Летим <span data-test="from">{{ departures.active }}</span></h1>
-    <p class="mb-4" >Найдено <span data-test="tourcount">{{ turs|length }}</span> туров, от <span data-test="pricemin">{{ price_min }}</span> до <span data-test="pricemax">{{ price_max }}</span> и от <span data-test="nightsmax">{{ nights_min }}</span> ночей до <span data-test="nightsmax">{{ nights_max }}</span> ночей</p>
+    <p class="mb-4" >Найдено <span data-test="tourcount">{{ turs|length }}</span> туров, от
+        <span data-test="pricemin">{{ price_min }}</span> до <span data-test="pricemax">{{ price_max }}</span> и от
+        <span data-test="nightsmax">{{ nights_min }}</span> ночей до
+        <span data-test="nightsmax">{{ nights_max }}</span> ночей</p>
     <!-- HERO -->
 
 
@@ -10,15 +13,15 @@
     <!-- CARDS -->
 
       <div class="row mt-5" data-test="cards">
-          {% for key, value in tours.items %}
-            {% if key in turs %}
+          {% for tour_id, tour_name in tours.items %}
+            {% if tour_id in turs %}
         <div class="col-4" data-test="card">
             <div class="card mb-3" >
-                <img src="{{ value.picture }}" class="card-img-top img-fluid" data-test="picture" height="200">
+                <img src="{{ tour_name.picture }}" class="card-img-top img-fluid" data-test="picture" height="200">
                 <div class="card-body">
-                    <h5 class="card-title">{{ value.title }}</h5>
-                    <p class="card-text">{{ value.description|truncatechars:200 }}</p>
-                    <a href="{% url 'tour' id=key %}" class="btn btn-sm btn-primary" data-test="tourlink">Подробнее</a>
+                    <h5 class="card-title">{{ tour_name.title }}</h5>
+                    <p class="card-text">{{ tour_name.description|truncatechars:200 }}</p>
+                    <a href="{% url 'tour' id=tour_id %}" class="btn btn-sm btn-primary" data-test="tourlink">Подробнее</a>
                 </div>
             </div>
         </div>
